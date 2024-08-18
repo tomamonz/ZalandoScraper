@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Available Sizes</title>
+  </head>
+  <body>
+    <h1>Zalando Sizes Check Result</h1>
+
+    {% if size_stock_status %}
+    <ul>
+      {% for size, status in size_stock_status.items() %}
+      <li>Size: {{ size }} - Status: {{ status }}</li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>No sizes found or an error occurred.</p>
+    {% endif %}
+  </body>
+</html>

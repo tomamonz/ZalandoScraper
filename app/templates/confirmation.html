@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirmation Page</title>
+  </head>
+  <body>
+    <h1>Welcome, {{ name }}!</h1>
+    <p>Your email: {{ email }}</p>
+
+    <p>Click the button below to check available Zalando sizes:</p>
+
+    <!-- Button to trigger the Zalando checker via AJAX -->
+    <button id="zalando-check-button">Check Zalando Sizes</button>
+
+    <!-- Div to display the results -->
+    <div id="results"></div>
+
+    <script>
+      document
+        .getElementById("zalando-check-button")
+        .addEventListener("click", function () {
+          // Perform AJAX request to the server-side route
+          fetch("/check_sizes_ajax")
+            .then((response) => response.json())
+            .then((data) => {
+              let resultDiv = document.getElementById("results");
+              if (data.error) {
+                resultDiv.innerHTML = `<p>Error: ${data.error}</p>`;
+              } else {
+                let resultsHtml = "<ul>";
+                for (let size in data) {
+                  resultsHtml += `<li>Size: ${size} - Status: ${data[size]}</li>`;
+                }
+                resultsHtml += "</ul>";
+                resultDiv.innerHTML = resultsHtml;
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+    </script>
+  </body>
+</html>
